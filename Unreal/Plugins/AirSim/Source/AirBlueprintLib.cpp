@@ -79,7 +79,7 @@ void UAirBlueprintLib::setSimulatePhysics(AActor* actor, bool simulate_physics)
 ULevelStreamingDynamic* UAirBlueprintLib::loadLevel(UObject* context, const FString& level_name)
 {
     bool success{ false };
-    context->GetWorld()->SetNewWorldOrigin(FIntVector(0, 0, 0));
+    context->GetWorld()->SetNewWorldOrigin(FIntVector(0, 0, -500)); // <-- this
     ULevelStreamingDynamic* new_level = UAirsimLevelStreaming::LoadAirsimLevelInstance(
         context->GetWorld(), level_name, FVector(0, 0, 0), FRotator(0, 0, 0), success);
     if (success) {
@@ -99,9 +99,9 @@ bool UAirBlueprintLib::spawnPlayer(UWorld* context)
     if (player_start_actors.Num() > 1) {
         for (auto player_start : player_start_actors) {
             if (player_start->GetName() != FString("SuperStart")) {
-                //context->GetWorld()->SetNewWorldOrigin(FIntVector(0, 0, 0));
-                auto location = player_start->GetActorLocation();
-                context->RequestNewWorldOrigin(FIntVector(location.X, location.Y, location.Z));
+                context->GetWorld()->SetNewWorldOrigin(FIntVector(0, 0, 0));
+                // auto location = player_start->GetActorLocation();
+                // context->RequestNewWorldOrigin(FIntVector(location.X, location.Y, location.Z));
                 success = true;
                 break;
             }
